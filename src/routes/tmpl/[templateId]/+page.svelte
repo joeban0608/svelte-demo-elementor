@@ -42,7 +42,6 @@
 				srcDoc={data?.template?.html ?? '<p>Template HTML not found</p>'}
 				title="Editor"
 				class="h-full w-full"
-				contenteditable="true"
 			></iframe>
 		</section>
 	</div>
