@@ -19,6 +19,7 @@ export const actions: Actions = {
 	updateEditor: async (event) => {
 		const formData = await event.request.formData();
 		const editorHtml = formData.get('editor-html') as string;
+		console.log('editorHtml', editorHtml);
 		if (!editorHtml) return error(400, 'Invalid editor HTML');
 		const queryTid = Number(event.params.templateId);
 		if (isNaN(queryTid)) return error(400, 'Invalid template ID');
