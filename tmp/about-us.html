@@ -1,0 +1,181 @@
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width,initial-scale=1" />
+		<title>Simple Company Website</title>
+		<style>
+			body {
+				font-family: sans-serif;
+				margin: 0;
+				padding: 0;
+				color: #ddd;
+				background-color: #1a1a1a;
+				line-height: 1.6;
+			}
+			header {
+				background: #000;
+				padding: 20px;
+				text-align: center;
+				border-bottom: 2px solid #333;
+			}
+			main {
+				padding: 20px;
+				margin-bottom: 60px;
+			}
+			section {
+				margin-bottom: 30px;
+			}
+			h2 {
+				border-bottom: 2px solid #333;
+				padding-bottom: 10px;
+				color: #fff;
+			}
+			.service {
+				border: 1px solid #333;
+				background-color: #222;
+				padding: 15px;
+				margin: 10px 0;
+			}
+			.service h3 {
+				color: #fff;
+			}
+			form {
+				max-width: 400px;
+				margin: 20px auto;
+				padding: 20px;
+				border: 1px solid #333;
+				background-color: #222;
+			}
+			form label {
+				display: block;
+				margin-bottom: 5px;
+				color: #fff;
+			}
+			form input,
+			form textarea {
+				width: calc(100% - 12px);
+				padding: 8px;
+				margin-bottom: 10px;
+				border: 1px solid #555;
+				background-color: #333;
+				color: #fff;
+			}
+			form button {
+				background-color: #ffc107;
+				color: #000;
+				padding: 10px 15px;
+				border: none;
+				cursor: pointer;
+			}
+			footer {
+				background: #000;
+				color: white;
+				text-align: center;
+				padding: 10px;
+				position: fixed;
+				bottom: 0;
+				width: 100%;
+				border-top: 2px solid #333;
+			}
+			.blog-item {
+				border: 1px solid #333;
+				background-color: #222;
+				padding: 15px;
+				margin: 10px 0;
+			}
+			.blog-item h3 {
+				margin-top: 0;
+				color: #fff;
+			}
+			.blog-item p {
+				color: #ddd;
+			}
+		</style>
+		<script src="https://cdn.cyberun.dev/static/dev/preview.v0.1.0.js"></script>
+	</head>
+	<body>
+		<header>
+			<h1>Welcome to Our Company</h1>
+			<p>Your trusted partner for innovative solutions.</p>
+		</header>
+		<main>
+			<section>
+				<h2>About Us</h2>
+				<p>
+					We are a dedicated company committed to providing high-quality services and products. Our
+					mission is to help our clients succeed by offering tailored solutions that meet their
+					specific needs.
+				</p>
+			</section>
+			<section>
+				<h2>Our Services</h2>
+				<div class="service">
+					<h3>Service 1</h3>
+					<p>
+						Description of service 1. This is a brief explanation of what this service entails and
+						what you can expect.
+					</p>
+				</div>
+				<div class="service">
+					<h3>Service 2</h3>
+					<p>Description of service 2. Another service we offer with a different focus.</p>
+				</div>
+			</section>
+			<section>
+				<h2>Blog Posts</h2>
+				<div id="blogPosts"></div>
+			</section>
+			<section>
+				<h2>Contact Us</h2>
+				<form id="contactForm">
+					<label for="name">Name:</label>
+					<input type="text" id="name" required />
+					<label for="email">Email:</label>
+					<input type="email" id="email" required />
+					<label for="message">Message:</label>
+					<textarea id="message" rows="4" required></textarea>
+					<button type="submit">Send Message</button>
+				</form>
+			</section>
+		</main>
+		<footer>
+			<p>&copy; 2024 Company Name. All Rights Reserved.</p>
+		</footer>
+		<script>
+			document.getElementById('contactForm').addEventListener('submit', function (event) {
+				event.preventDefault();
+				alert('Thank you for your message!');
+			});
+			async function fetchData() {
+				const response = await fetch(
+					'http://localhost:5173/api/data?collectionId=e6363860-109e-4428-a3b1-67b1fb7e33b4'
+				);
+				const data = await response.json();
+				const blogPostsDiv = document.getElementById('blogPosts');
+				if (data && data.items) {
+					data.items.forEach((item) => {
+						const blogItemDiv = document.createElement('div');
+						blogItemDiv.classList.add('blog-item');
+
+						const titleElement = document.createElement('h3');
+						titleElement.textContent = item.Title;
+						blogItemDiv.appendChild(titleElement);
+
+						const contentElement = document.createElement('p');
+						contentElement.textContent = item.Content;
+						blogItemDiv.appendChild(contentElement);
+						const authorElement = document.createElement('p');
+						authorElement.textContent = 'Author: ' + item.Author;
+						blogItemDiv.appendChild(authorElement);
+
+						blogPostsDiv.appendChild(blogItemDiv);
+					});
+				} else {
+					blogPostsDiv.innerHTML = '<p>No blog posts found.</p>';
+				}
+			}
+			fetchData();
+		</script>
+	</body>
+</html>
