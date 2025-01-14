@@ -7,6 +7,8 @@ enum ElementType {
 export class ElementPanel {
 	ele: HTMLElement;
 	type: ElementType;
+	#_defaultFontSize = '16';
+	#_prevStyle_border: CSSStyleDeclaration['border'] = 'unset';
 
 	constructor(ele: HTMLElement) {
 		this.ele = ele;
@@ -31,11 +33,12 @@ export class ElementPanel {
 				throw new Error('Unsupported element type');
 		}
 
+		this.#_prevStyle_border = this.ele.style.border;
 		this.ele.style.border = '1px solid red';
 	}
 
 	destroy() {
-		this.ele.style.border = 'inherit';
+		this.ele.style.border = this.#_prevStyle_border;
 	}
 
 	get current() {
@@ -57,12 +60,12 @@ export class ElementPanel {
 	}
 
 	fontSizeUp() {
-		const currentSize = parseInt(this.ele.style.fontSize || '16px');
+		const currentSize = parseInt(this.ele.style.fontSize || this.#_defaultFontSize);
 		this.fontSize(currentSize + 1);
 	}
 
 	fontSizeDown() {
-		const currentSize = parseInt(this.ele.style.fontSize || '16px');
+		const currentSize = parseInt(this.ele.style.fontSize || this.#_defaultFontSize);
 		this.fontSize(currentSize - 1);
 	}
 }
